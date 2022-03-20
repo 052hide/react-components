@@ -1,39 +1,70 @@
+import CircularProgress from '@mui/material/CircularProgress'
 import clsx from 'clsx'
 import * as React from 'react'
 
 import type { ButtonProps } from './type'
 
+import { classNames } from './const'
+
 export const Button = ({
   inputRef,
-  children,
+  id,
   name,
   type,
-  disabled = false,
+  children,
+  isDisabled = false,
+  isLoading = false,
+  theme = 'primary',
+  size = 'base',
   isBlock = true,
+  roundType = 'base',
+  roundDirection = {
+    topLeft: true,
+    topRight: true,
+    bottomLeft: true,
+    bottomRight: true,
+  },
   onClick,
+  onFocus,
+  onBlur,
 }: ButtonProps) => {
   return (
-    <button
-      ref={inputRef}
-      name={name}
-      type={type}
-      disabled={disabled}
-      className={clsx(
-        'tw-h-10',
-        'tw-flex tw-items-center tw-justify-center',
-        'tw-rounded',
-        'tw-text-sm tw-text-white',
-        disabled
-          ? 'tw-bg-gray-400 focus:tw-bg-gray-400 hover:tw-bg-gray-400'
-          : 'tw-bg-indigo-600 focus:tw-bg-indigo-700 hover:tw-bg-indigo-500',
-        'tw-transition-all tw-duration-300',
-        'focus:tw-outline-none',
-        'disabled:tw-cursor-not-allowed',
-        isBlock && 'tw-w-full'
-      )}
-      onClick={onClick}
+    <div
+      className={clsx('tw-w-full', 'tw-flex tw-justify-center tw-items-center')}
     >
-      {children}
-    </button>
+      <button
+        ref={inputRef}
+        id={id}
+        name={name}
+        type={type}
+        disabled={isDisabled}
+        className={classNames().button({
+          isDisabled,
+          isLoading,
+          theme,
+          size,
+          isBlock,
+          roundType,
+          roundDirection,
+        })}
+        onClick={onClick}
+        onFocus={onFocus}
+        onBlur={onBlur}
+      >
+        {isLoading ? (
+          <CircularProgress
+            disableShrink
+            sx={{
+              color: 'white',
+              animationDuration: '750ms',
+            }}
+            size={size === 'lg' ? 24 : 20}
+            thickness={4}
+          />
+        ) : (
+          children
+        )}
+      </button>
+    </div>
   )
 }

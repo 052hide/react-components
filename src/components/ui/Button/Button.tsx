@@ -1,6 +1,5 @@
 import CircularProgress from '@mui/material/CircularProgress'
 import clsx from 'clsx'
-import * as React from 'react'
 
 import type { ButtonProps } from './type'
 

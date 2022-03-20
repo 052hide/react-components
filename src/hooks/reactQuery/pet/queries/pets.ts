@@ -1,10 +1,11 @@
-import { type UseQueryOptions, useQuery } from 'react-query'
+import { useQuery } from 'react-query'
+
+import type { UseQueryOptions } from 'react-query'
 
 import { fetchPets } from '@/api/pet'
 import type { PetsRequestQueryParams } from '@/api/types/pet'
 
 import { petKeyFactory } from './key'
-
 
 export const fetchPetsQueryFn = ({
   queryParams,
@@ -14,14 +15,18 @@ export const fetchPetsQueryFn = ({
   return fetchPets({ queryParams })
 }
 
-export type UsePetsOptions = UseQueryOptions<typeof fetchPetsQueryFn>
+export type UsePetsOptions = {
+  config: UseQueryOptions<Awaited<ReturnType<typeof fetchPetsQueryFn>>>
+}
 
-
-export const usePets = ({ config, queryParams }: Parameters<typeof fetchPetsQueryFn>[0] & {
+export const usePets = ({
+  config,
+  queryParams,
+}: Parameters<typeof fetchPetsQueryFn>[0] & {
   config?: UsePetsOptions
 }) => {
   const queryConfig = {
-    config,
+    ...config,
     queryKey: petKeyFactory.list(queryParams),
     queryFn: () => fetchPetsQueryFn({ queryParams }),
   }

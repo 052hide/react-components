@@ -1,6 +1,6 @@
 import { rest } from 'msw'
 
-import { ENDPOINT_PETS } from '@/api/pet'
+import { ENDPOINT_PETS, ENDPOINT_PET } from '@/api/pet'
 import type { Pet } from '@/api/types/pet'
 import { mockPageInfo, mockPet } from '@/test/staticResponses'
 
@@ -22,5 +22,13 @@ export const mockPetHandler = {
           })
         )
       }),
+  },
+  updatePet: () => {
+    return {
+      success: (id: number) =>
+        rest.patch(ENDPOINT_PET([id]), (_req, res, ctx) => {
+          return res(ctx.status(200))
+        }),
+    }
   },
 }

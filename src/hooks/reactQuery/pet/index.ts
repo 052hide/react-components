@@ -1,2 +1,2 @@
-export * from './pet'
-export * from './pets'
+export * from './mutations'
+export * from './queries'

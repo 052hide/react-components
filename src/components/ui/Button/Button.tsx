@@ -30,6 +30,8 @@ export const Button = ({
     bottomRight: true,
   },
   onClick,
+  onFocus,
+  onBlur,
 }: ButtonProps) => {
   return (
     <div
@@ -52,6 +54,8 @@ export const Button = ({
           'disabled:tw-cursor-not-allowed'
         )}
         onClick={onClick}
+        onFocus={onFocus}
+        onBlur={onBlur}
       >
         {isLoading ? (
           <CircularProgress

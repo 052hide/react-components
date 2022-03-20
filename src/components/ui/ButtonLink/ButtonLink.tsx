@@ -1,6 +1,5 @@
 import clsx from 'clsx'
 import NextLink from 'next/link'
-import * as React from 'react'
 
 import type { ButtonLinkProps } from './type'
 

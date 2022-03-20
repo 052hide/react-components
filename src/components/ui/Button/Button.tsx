@@ -4,12 +4,7 @@ import * as React from 'react'
 
 import type { ButtonProps } from './type'
 
-import {
-  sizeClassNames,
-  widthClassNames,
-  themeClassNames,
-  roundedClassNames,
-} from './const'
+import { classNames } from './const'
 
 export const Button = ({
   inputRef,
@@ -43,16 +38,15 @@ export const Button = ({
         name={name}
         type={type}
         disabled={isDisabled}
-        className={clsx(
-          sizeClassNames({ size }),
-          widthClassNames({ size, isBlock, isLoading, roundType }),
-          themeClassNames({ theme, isDisabled }),
-          roundedClassNames({ roundType, roundDirection }),
-          'tw-flex tw-items-center tw-justify-center',
-          'tw-transition-all tw-duration-500',
-          'focus:tw-outline-none',
-          'disabled:tw-cursor-not-allowed'
-        )}
+        className={classNames().button({
+          isDisabled,
+          isLoading,
+          theme,
+          size,
+          isBlock,
+          roundType,
+          roundDirection,
+        })}
         onClick={onClick}
         onFocus={onFocus}
         onBlur={onBlur}

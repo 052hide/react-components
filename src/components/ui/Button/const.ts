@@ -12,14 +12,14 @@ export const SIZE = {
   lg: 'lg',
 }
 
-export const sizeClassNames = ({ size }: Pick<ButtonProps, 'size'>) => {
+const sizeClassNames = ({ size }: Pick<ButtonProps, 'size'>) => {
   if (size === 'lg') {
     return clsx('tw-h-12', 'tw-text-base')
   }
   return clsx('tw-h-10', 'tw-text-sm')
 }
 
-export const widthClassNames = ({
+const widthClassNames = ({
   size,
   isBlock,
   isLoading,
@@ -37,7 +37,7 @@ export const widthClassNames = ({
   return clsx('tw-px-4', size === 'lg' ? 'tw-w-[56px]' : 'tw-w-[52px]')
 }
 
-export const themeClassNames = ({
+const themeClassNames = ({
   theme,
   isDisabled,
 }: Pick<ButtonProps, 'theme' | 'isDisabled'>) => {
@@ -60,7 +60,7 @@ export const themeClassNames = ({
   )
 }
 
-export const roundedClassNames = ({
+const roundedClassNames = ({
   roundType,
   roundDirection,
 }: Pick<ButtonProps, 'roundType' | 'roundDirection'>) => {
@@ -94,4 +94,38 @@ export const roundedClassNames = ({
     ]
   }
   return res
+}
+
+export const classNames = () => {
+  return {
+    button: ({
+      isDisabled,
+      isLoading,
+      theme,
+      size,
+      isBlock,
+      roundType,
+      roundDirection,
+    }: Pick<
+      ButtonProps,
+      | 'isDisabled'
+      | 'isLoading'
+      | 'theme'
+      | 'size'
+      | 'isBlock'
+      | 'roundType'
+      | 'roundDirection'
+    >) => {
+      return clsx(
+        sizeClassNames({ size }),
+        widthClassNames({ size, isBlock, isLoading, roundType }),
+        themeClassNames({ theme, isDisabled }),
+        roundedClassNames({ roundType, roundDirection }),
+        'tw-flex tw-items-center tw-justify-center',
+        'tw-transition-all tw-duration-500',
+        'focus:tw-outline-none',
+        'disabled:tw-cursor-not-allowed'
+      )
+    },
+  }
 }

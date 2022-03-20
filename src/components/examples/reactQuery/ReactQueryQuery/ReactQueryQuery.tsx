@@ -1,6 +1,3 @@
-import axios from 'axios'
-import clsx from 'clsx'
-
 import { usePets } from '@/hooks/reactQuery/pet'
 
 export const ReactQueryQuery = () => {

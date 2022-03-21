@@ -11,6 +11,7 @@ export type InputNumberProps = CommonInputProps & {
 
   value?: string
   placeholder?: string
+  maximumFractionDigits?: number
 
   // function
   onChange?: (value?: string) => void

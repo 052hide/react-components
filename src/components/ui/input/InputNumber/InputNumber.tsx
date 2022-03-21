@@ -12,6 +12,7 @@ export const InputNumber = ({
   autoComplete,
   value,
   placeholder = '',
+  maximumFractionDigits = 8,
   isDisabled = false,
   isError = false,
   roundDirection = {
@@ -32,8 +33,12 @@ export const InputNumber = ({
   }, [value])
 
   const formattedValue = useMemo(() => {
-    return isValid ? Number(value).toLocaleString() : value
-  }, [value, isValid])
+    return isValid
+      ? Number(value).toLocaleString(undefined, {
+          maximumFractionDigits,
+        })
+      : value
+  }, [value, isValid, maximumFractionDigits])
 
   const onChangeHandler = useCallback(
     (value?: string) => {
@@ -51,8 +56,25 @@ export const InputNumber = ({
 
   const onBlurHandler = useCallback(() => {
     setIsFocus(false)
+
+    if (isValid) {
+      const fractionDigits = `${value}`.split('.')
+      if (
+        fractionDigits.length === 2 &&
+        fractionDigits[1].length > maximumFractionDigits
+      ) {
+        onChange &&
+          onChange(
+            `${fractionDigits[0]}.${fractionDigits[1].substring(
+              0,
+              maximumFractionDigits
+            )}`
+          )
+      }
+    }
+
     onBlur && onBlur()
-  }, [onBlur])
+  }, [value, maximumFractionDigits, isValid, onBlur, onChange])
 
   return (
     <input

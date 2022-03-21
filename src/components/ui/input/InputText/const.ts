@@ -2,7 +2,7 @@ import clsx from 'clsx'
 
 import type { InputTextProps } from './type'
 
-import { baseClassNames, roundedClassNames } from '@/components/ui/input/const'
+import { classNames as commonClassNames } from '@/components/ui/input/const'
 
 export const classNames = () => {
   return {
@@ -10,10 +10,7 @@ export const classNames = () => {
       isError,
       roundDirection,
     }: Pick<InputTextProps, 'isError' | 'roundDirection'>) => {
-      return clsx(
-        baseClassNames({ isError }),
-        roundedClassNames({ roundDirection })
-      )
+      return clsx(commonClassNames().input({ isError, roundDirection }))
     },
   }
 }

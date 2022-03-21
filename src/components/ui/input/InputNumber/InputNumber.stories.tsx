@@ -41,7 +41,7 @@ const meta: ComponentMeta<typeof LocalComponent> = {
 }
 export default meta
 
-export const Text: ComponentStoryObj<typeof LocalComponent> = {
+export const Base: ComponentStoryObj<typeof LocalComponent> = {
   args: {
     value: '',
     placeholder: 'Placeholder',

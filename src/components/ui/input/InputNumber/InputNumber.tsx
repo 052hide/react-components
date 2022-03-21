@@ -65,7 +65,7 @@ export const InputNumber = ({
       ) {
         onChange &&
           onChange(
-            `${fractionDigits[0]}.${fractionDigits[1].substring(
+            `${fractionDigits[0]}.${fractionDigits[1].slice(
               0,
               maximumFractionDigits
             )}`

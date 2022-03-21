@@ -1,13 +1,22 @@
 import clsx from 'clsx'
+import { useState } from 'react'
 
 import type { AxiosResponse } from 'axios'
 
 import type { PetsResponse } from '@/api/types/pet'
+import { Button } from '@/components/ui'
 import { useUpdatePet, usePets } from '@/hooks/reactQuery/pet'
 import { petKeyFactory } from '@/hooks/reactQuery/pet'
 import { queryClient } from '@/lib/react-query'
 
+const params = {
+  id: 1,
+  name: 'Optimistic Update',
+} as const
+
 export const ReactQueryOptimisticUpdate = () => {
+  const [updated, setUpdated] = useState<boolean>(false)
+
   const { data, refetch } = usePets({})
 
   const { mutateAsync } = useUpdatePet({
@@ -52,18 +61,41 @@ export const ReactQueryOptimisticUpdate = () => {
         )
       },
     },
-    pathParams: [1],
-    requestBody: { name: 'aaa' },
+    pathParams: [params.id],
+    requestBody: { name: params.name },
   })
 
   const updatePet = async () => {
+    setUpdated(true)
     await mutateAsync(
       {
-        pathParams: [1],
-        requestBody: { name: 'new Name' },
+        pathParams: [params.id],
+        requestBody: { name: params.name },
       },
       {
-        onSuccess: () => {
+        onSuccess: (updatedPet: ReturnType<typeof useUpdatePet>['data']) => {
+          const petsResponse = queryClient.getQueryData<
+            AxiosResponse<PetsResponse>
+          >(petKeyFactory.list())
+          queryClient.setQueryData<ReturnType<typeof usePets>['data']>(
+            petKeyFactory.list(),
+            petsResponse && updatedPet
+              ? {
+                  ...petsResponse,
+                  data: {
+                    ...petsResponse.data,
+                    items: petsResponse.data.items.map((p) =>
+                      p.id === updatedPet.data.id
+                        ? {
+                            id: p.id,
+                            name: updatedPet.data.name,
+                          }
+                        : p
+                    ),
+                  },
+                }
+              : undefined
+          )
           refetch()
         },
       }
@@ -71,9 +103,13 @@ export const ReactQueryOptimisticUpdate = () => {
   }
 
   return (
-    <div>
+    <div className={clsx('tw-w-full', 'tw-flex tw-flex-col', 'tw-gap-4')}>
       <div>
-        <button onClick={() => updatePet()}>submit</button>
+        <Button
+          onClick={() => (updated ? window.location.reload() : updatePet())}
+        >
+          {updated ? 'Refresh page' : 'Update pet'}
+        </Button>
       </div>
       <div>
         {data && (

@@ -34,3 +34,17 @@ export const roundedClassNames = ({
   }
   return res
 }
+
+export const classNames = () => {
+  return {
+    input: ({
+      isError,
+      roundDirection,
+    }: Pick<CommonInputProps, 'isError' | 'roundDirection'>) => {
+      return clsx(
+        baseClassNames({ isError }),
+        roundedClassNames({ roundDirection })
+      )
+    },
+  }
+}

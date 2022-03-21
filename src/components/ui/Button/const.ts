@@ -16,7 +16,7 @@ const sizeClassNames = ({ size }: Pick<ButtonProps, 'size'>) => {
   if (size === 'lg') {
     return clsx('tw-h-12', 'tw-text-base')
   }
-  return clsx('tw-h-10', 'tw-text-sm')
+  return clsx('tw-h-formBase', 'tw-text-sm')
 }
 
 const widthClassNames = ({

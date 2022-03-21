@@ -1,3 +1,4 @@
+import { action } from '@storybook/addon-actions'
 import { ComponentMeta, ComponentStoryObj } from '@storybook/react'
 import { useState } from 'react'
 
@@ -5,7 +6,7 @@ import type { ButtonProps } from './type'
 
 import { Button } from './Button'
 
-const Component = ({
+const LocalComponent = ({
   children,
   isDisabled,
   isLoading,
@@ -15,6 +16,7 @@ const Component = ({
   const [isLocalDisabled, setIsLocalDisabled] = useState<boolean>(false)
 
   const onClickHandler = () => {
+    action('onClick')()
     setIsLocalLoading(true)
     setIsLocalDisabled(true)
     setTimeout(() => {
@@ -35,16 +37,16 @@ const Component = ({
   )
 }
 
-const meta: ComponentMeta<typeof Component> = {
+const meta: ComponentMeta<typeof LocalComponent> = {
   title: 'ui/Button',
-  component: Component,
+  component: LocalComponent,
   parameters: {
     controls: { expanded: true },
   },
 }
 export default meta
 
-export const Base: ComponentStoryObj<typeof Component> = {
+export const Base: ComponentStoryObj<typeof LocalComponent> = {
   args: {
     type: 'button',
     children: 'Button',

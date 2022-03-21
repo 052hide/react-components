@@ -6,9 +6,9 @@ import { InputText } from './InputText'
 import { InputTextProps } from './type'
 
 const LocalComponent = ({ value, ...props }: InputTextProps) => {
-  const [localValue, setLocalValue] = useState<string>('')
+  const [localValue, setLocalValue] = useState<string | undefined>('')
 
-  const onChangeHandler = (value: string) => {
+  const onChangeHandler = (value?: string) => {
     action('onChange')(value)
     setLocalValue(value)
   }

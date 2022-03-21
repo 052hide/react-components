@@ -14,7 +14,7 @@ export type InputTextProps = CommonInputProps & {
   placeholder?: string
 
   // function
-  onChange?: (value: string) => void
+  onChange?: (value?: string) => void
   onFocus?: () => void
   onBlur?: () => void
 }
